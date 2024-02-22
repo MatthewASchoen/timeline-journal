@@ -15,7 +15,7 @@ With these goals in mind, I have created this page (a work in progress), and I h
 
 # To anybody here on Github
 
-Hello! If I have shared this with you, please note that this project was made and maintained entirely by me, Matthew Schoen, for myself and friends. I was not initially planning on showing the code for this to people, but I have decided to put it up on Github as an example of my work and passion. Everything I have made here has been created from scratch (save for some colors, initial button styles, and libraries I got online), and I would be happy to share specific implementation details to those who are interested. Please do not modify or share this code without my consent, and let me know if you have any feedback or ideas for me!
+Hello! If I have shared this with you, please note that this project was made and maintained entirely by me, Matthew Schoen, for myself and friends. I was not initially planning on showing the code for this to people, but I have decided to put it up on Github as an example of my work and passion. Everything I have made here has been created from scratch (save for some colors, initial button styles, and libraries I got online), and I would be happy to share specific implementation details to those who are interested. I intend to clean and document my code more as I go, so please consider this my initial work for any rough edges you may find. Please do not modify or share this code without my consent, and let me know if you have any feedback or ideas for me!
 
 # Features
 
