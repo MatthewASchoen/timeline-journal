@@ -31,10 +31,11 @@ By clicking "New Entry" (in the top right as of the creation of this readme), th
 
 On the main timeline view (starting page), you can select a timeframe on the calendar to see all entries relevant to that selection. Entries will be split into 3 lists:
 
-- Started/Ended, for all entries whose start and/or end date fall within the selection
+- Started/Ended, for all entries whose start and/or end dates fall within the selection
 - Ongoing, for entries that started before your selection and either ended after or are still ongoing
 - Anniversaries/Birthdays, for entries that started 1+ years prior to your selection
-  For Started/Ended entries, they will be labeled "Started" or "Ended" if only one of their dates is within the selection, and for Anniversaries, the amount of years it has been will be shown. For example, if I select May 2023, the lists include: "Closed on [new apartment]", "Ended: Living at [former apartment]", "Started: Living at [new apartment]", "Working at [job]", and "2 Years: [Nephew]'s Birthday". Per my personal goals, this is a quick way for me to visualize what was happening at any given time in my life. Additionally, there are Text, Category, and Location filters that can be applied to find certain entries, and clicking an entry pops a modal with its details.
+
+For Started/Ended entries, they will be labeled "Started" or "Ended" if only one of their dates is within the selection, and for Anniversaries, the amount of years it has been will be shown. For example, if I select May 2023 on my timeline, my lists include: "Closed on [new apartment]", "Ended: Living at [former apartment]", "Started: Living at [new apartment]", "Working at [job]", and "2 Years: [Nephew]'s Birthday". Per my project goals, this is a quick way for me to visualize what was happening at any given time in my life. Additionally, there are Text, Category, and Location filters that can be applied to find certain entries, and clicking an entry pops a modal with its details.
 
 ## Data Storage
 
