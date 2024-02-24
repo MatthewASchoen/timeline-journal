@@ -64,8 +64,10 @@ export const newWhen = (year?: number, month?: number, day?: number): When =>
       }
     : dayJSToWhen(dayjs(), 'day');
 
-export const monthName = (when: When): string =>
-  MONTHS[hasMonths(when) ? when.month : 0];
+export const monthName = (when: When, short?: boolean): string => {
+  const name = MONTHS[hasMonths(when) ? when.month : 0];
+  return !short || !name ? name : name.substring(0, 3);
+};
 
 export const getUnitValue = (when: When, unit: WhenUnit): number =>
   unit === 'year' ? when.year : unit === 'month' ? when.month : when.day;
@@ -135,9 +137,9 @@ export const parseWhen = (value: string): When | null => {
 export const whenString = (
   when: When,
   when2?: When | null,
-  options: { dayOfWeek?: number; inOnFrom?: boolean } = {}
+  options: { dayOfWeek?: number; inOnFrom?: boolean; shortMonth?: boolean } = {}
 ): string => {
-  const { dayOfWeek, inOnFrom } = options;
+  const { dayOfWeek, inOnFrom, shortMonth } = options;
   if (when2) {
     const ws1 = whenString(when, undefined, { ...options, inOnFrom: false });
     const ws2 = whenString(when2, undefined, { ...options, inOnFrom: false });
@@ -148,11 +150,13 @@ export const whenString = (
     case 'year':
       return inOnFrom ? `in ${when.year}` : when.year.toString();
     case 'month':
-      return `${inOnFrom ? 'in ' : ''}${monthName(when)} ${when.year}`;
+      return `${inOnFrom ? 'in ' : ''}${monthName(when, shortMonth)} ${
+        when.year
+      }`;
     case 'day':
       return `${inOnFrom ? 'on ' : ''}${
         dayOfWeek !== undefined ? `${DAYS_OF_WEEK[dayOfWeek]}, ` : ''
-      }${monthName(when)} ${when.day}, ${when.year}`;
+      }${monthName(when, shortMonth)} ${when.day}, ${when.year}`;
   }
 };
 

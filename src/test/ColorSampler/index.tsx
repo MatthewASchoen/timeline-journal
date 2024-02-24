@@ -218,7 +218,7 @@ export const ColorSampler = ({
             value1={when}
             onClick={setWhen}
             highlightColor={selected.color}
-            buttons={
+            footer={
               <Text color={selected.color} b>
                 Selected: {whenString(when)}
               </Text>

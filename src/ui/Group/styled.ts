@@ -30,6 +30,12 @@ export const GroupLabel = styled.span`
   background: lightcyan;
 `;
 
+export const LabelWithCollapse = styled.div`
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
+`;
+
 export const GroupInner = styled.div`
   overflow: hidden auto;
   min-height: 0;

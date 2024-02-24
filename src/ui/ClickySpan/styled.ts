@@ -11,6 +11,7 @@ export const ClickySpan = styled.span<StyledClickySpanProps>`
     onClick &&
     css`
       cursor: pointer;
+      //user-select: none;
       &:hover,
       &:focus {
         ${linkLike &&

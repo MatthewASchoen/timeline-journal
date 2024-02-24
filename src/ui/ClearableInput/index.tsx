@@ -1,5 +1,5 @@
 import { ClickySpan } from '../ClickySpan';
-import { confirmKeys } from '../keys';
+import { onKeys } from '../keys';
 import { PlusButton, XButton } from './XButton';
 import * as S from './styled';
 
@@ -22,7 +22,7 @@ const ClearableInput = ({
       <Button
         tabIndex={0}
         onClick={onClear}
-        onKeyDown={({ key }) => confirmKeys.includes(key) && onClear()}
+        onKeyDown={onKeys({ confirm: onClear })}
       />
     </S.ClearableContainer>
   );

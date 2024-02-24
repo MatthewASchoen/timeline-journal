@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
-import { SplitDivX } from '../../ui/SplitDiv';
+import { SplitDivX, SplitDivY } from '../../ui/SplitDiv';
 import Group from '../../ui/Group';
-import { ClickySpan } from '../../ui/ClickySpan';
 import { ButtonTray, StyledButton } from '../../ui/Button';
 import { appFont } from '../TimelineApp/styled';
 import { GroupInner } from '../../ui/Group/styled';
@@ -12,7 +11,20 @@ export const FiltersAndEntries = styled(SplitDivX)`
   //grid-template-columns: auto auto;
 `;
 
-export const FilterPanel = styled(Group)`
+export const TimelineAndFilters = styled(SplitDivY)`
+  grid-template-rows: auto auto;
+`;
+
+export const TimelineGroup = styled(Group)`
+  > ${GroupInner} {
+    display: flex;
+    > * {
+      margin: auto;
+    }
+  }
+`;
+
+export const FilterGroup = styled(Group)`
   > ${GroupInner} {
     display: flex;
     flex-direction: column;

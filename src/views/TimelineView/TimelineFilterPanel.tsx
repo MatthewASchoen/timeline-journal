@@ -4,10 +4,16 @@ import { Entry, EntryFilter } from '../../types/entry';
 import { RadioLabel } from '../../ui/InputLabel';
 import * as S from './styled';
 import EntryDetailsFilter from '../../components/EntryDetailsFilter';
-import { isBefore, newWhen, whenEqual, whenValue } from '../../types/when';
-import { Button } from '../../ui/Button';
+import {
+  When,
+  isBefore,
+  newWhen,
+  whenEqual,
+  whenString,
+  whenValue,
+} from '../../types/when';
 
-export const allTimeLabel = 'Entries from All Time';
+export const allTimeLabel = 'All Time';
 
 // https://www.schemecolor.com/pastel-print-2.php - Flavescent #FBEB96
 export const filterHighlight = '#FBEB96'; //'khaki';
@@ -32,6 +38,9 @@ const TimelineFilterPanel = ({
   hoverEntry,
 }: TimelineFilterPanelProps): JSX.Element => {
   const today = newWhen();
+  const thisMonth = newWhen(today.year, today.month);
+  const thisYear = newWhen(today.year);
+
   const [year, setYear] = useState(today.year);
   const { when } = filter;
 
@@ -43,20 +52,64 @@ const TimelineFilterPanel = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [whenValue(when)]);
 
-  const jumpButtons = (
+  const allTimeRadio = (
+    <RadioLabel
+      id="all-time-filter"
+      label={allTimeLabel}
+      onChange={() => setFilter({ ...filter, when: undefined })}
+      checked={!when}
+      color={filterHighlight}
+    />
+  );
+
+  // const jumpButtons = (
+  //   <>
+  //     <Button
+  //       onClick={() => setFilter({ ...filter, when: today })}
+  //       disabled={when && whenEqual(when, today)}
+  //     >
+  //       Select Today
+  //     </Button>
+  //     <Button
+  //       onClick={() => setYear(when?.year || today.year)}
+  //       disabled={!when || when.year === year}
+  //     >
+  //       Jump to Selection
+  //     </Button>
+  //   </>
+  // );
+
+  const [hoverWhen, setHoverWhen] = useState<When>();
+
+  const radioShortcuts = (
     <>
-      <Button
-        onClick={() => setFilter({ ...filter, when: today })}
-        disabled={when && whenEqual(when, today)}
-      >
-        Select Today
-      </Button>
-      <Button
-        onClick={() => setYear(when?.year || today.year)}
-        disabled={!when || when.year === year}
-      >
-        Jump to Selection
-      </Button>
+      <RadioLabel
+        id="today-filter"
+        label="Today"
+        onChange={() => setFilter({ ...filter, when: today })}
+        checked={whenEqual(when, today)}
+        color={filterHighlight}
+        onMouseEnter={() => setHoverWhen(today)}
+        onMouseLeave={() => setHoverWhen(undefined)}
+      />
+      <RadioLabel
+        id="this-month-filter"
+        label={whenString(thisMonth)}
+        onChange={() => setFilter({ ...filter, when: thisMonth })}
+        checked={whenEqual(when, thisMonth)}
+        color={filterHighlight}
+        onMouseEnter={() => setHoverWhen(thisMonth)}
+        onMouseLeave={() => setHoverWhen(undefined)}
+      />
+      <RadioLabel
+        id="this-year-filter"
+        label={`All of ${thisYear.year}`}
+        onChange={() => setFilter({ ...filter, when: thisYear })}
+        checked={whenEqual(when, thisYear)}
+        color={filterHighlight}
+        onMouseEnter={() => setHoverWhen(thisYear)}
+        onMouseLeave={() => setHoverWhen(undefined)}
+      />
     </>
   );
 
@@ -64,10 +117,11 @@ const TimelineFilterPanel = ({
     id: 'main-picker',
     year,
     setYear,
-    value1: filter.when,
+    value1: hoverWhen || filter.when,
     onClick: when => setFilter({ ...filter, when }),
     highlightColor: filterHighlight,
-    buttons: jumpButtons,
+    header: allTimeRadio,
+    footer: radioShortcuts,
     tooltipPrefix: 'Select',
   };
 
@@ -90,25 +144,20 @@ const TimelineFilterPanel = ({
   }
 
   return (
-    <S.FilterPanel label="Timeline Filters" buttons={buttons}>
-      <S.AllTimeRow>
-        <RadioLabel
-          id="all-time-filter"
-          label={allTimeLabel}
-          onChange={() => setFilter({ ...filter, when: undefined })}
-          checked={!when}
-          color={filterHighlight}
+    <S.TimelineAndFilters>
+      <S.TimelineGroup label="Timeline" buttons={buttons}>
+        <CalendarPicker {...pickerProps} />
+      </S.TimelineGroup>
+      <S.FilterGroup label="Filters">
+        <EntryDetailsFilter
+          filter={filter}
+          setFilter={setFilter}
+          categories={categories}
+          locations={locations}
+          highlightColor={filterHighlight}
         />
-      </S.AllTimeRow>
-      <CalendarPicker {...pickerProps} />
-      <EntryDetailsFilter
-        filter={filter}
-        setFilter={setFilter}
-        categories={categories}
-        locations={locations}
-        highlightColor={filterHighlight}
-      />
-    </S.FilterPanel>
+      </S.FilterGroup>
+    </S.TimelineAndFilters>
   );
 };
 

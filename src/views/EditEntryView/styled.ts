@@ -51,15 +51,15 @@ export const WhenGroup = styled(Group)`
 
 export const WhenPickerContainer = styled(Stack)`
   font-size: 1.5rem;
-  row-gap: 1rem;
+  row-gap: 2rem;
 `;
 
-export const SummaryStack = styled(Stack).attrs({ gap: '1rem' })`
-  padding: 0.25rem;
-  > * {
-    margin: auto;
-  }
-`;
+// export const SummaryStack = styled(Stack).attrs({ gap: '1rem' })`
+//   padding: 0.25rem;
+//   > * {
+//     margin: auto;
+//   }
+// `;
 
 export const SummaryText = styled.span`
   display: flex;
@@ -85,15 +85,28 @@ export const SummaryText = styled.span`
   }
 `;
 
-export const SelectedText = styled.span`
-  font-weight: bolder;
-  background: ${whenPickerHighlight};
-  padding: 0.25rem 0.5rem;
+export const SummaryRange = styled.div`
+  display: flex;
+  column-gap: 0.5rem;
+  /* ${ClickySpan} {
+    padding-inline: 0.25rem;
+    background: ${whenPickerHighlight};
+  } */
 `;
 
-export const SubText = styled.span`
+// export const SelectedText = styled.span`
+//   font-weight: bolder;
+//   background: ${whenPickerHighlight};
+//   padding: 0.25rem 0.5rem;
+// `;
+
+export const SubText = styled.div`
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
   font-style: italic;
-  padding-bottom: 1rem;
 `;
 
 export const DetailsGroup = styled(GroupWithButtons)`

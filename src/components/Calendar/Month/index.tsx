@@ -8,7 +8,7 @@ import {
   whenString,
 } from '../../../types/when';
 import { DayRangeHighlight } from '../../../types/when-range';
-import { confirmKeys } from '../../../ui/keys';
+import { onKeys } from '../../../ui/keys';
 import * as S from './styled';
 
 export type CalendarMonthProps = {
@@ -121,9 +121,7 @@ export const CalendarMonth = ({
         onClick={onClick && (() => onClick(newWhen(value.year, value.month)))}
         onKeyDown={
           onClick &&
-          (({ key }) =>
-            confirmKeys.includes(key) &&
-            onClick(newWhen(value.year, value.month)))
+          onKeys({ confirm: () => onClick(newWhen(value.year, value.month)) })
         }
         onMouseOver={
           onHover && (() => onHover(newWhen(value.year, value.month)))

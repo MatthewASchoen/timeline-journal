@@ -16,7 +16,7 @@ export const PickerContainer = styled.div<FontScaleProps>`
   min-width: calc(${calSize} * 3 + (${yearCalendarGap} + 2px) * 4);
   z-index: 1;
 
-  > ${ButtonTray} {
+  /* > ${ButtonTray} {
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0.5rem 0.5rem 0;
@@ -25,7 +25,7 @@ export const PickerContainer = styled.div<FontScaleProps>`
     > *:first-child:last-child {
       grid-column: span 2;
     }
-  }
+  } */
 `;
 
 export const PickerCalendarRow = styled.div<FontScaleProps>`
@@ -38,7 +38,7 @@ export const PickerCalendarRow = styled.div<FontScaleProps>`
 
 const yearCss = css`
   width: 2.5em;
-  height: 1.3em;
+  //height: 1.3em;
   text-align: center;
   padding: 0;
   font: inherit;
@@ -67,19 +67,30 @@ export const YearInput = styled(ValidatorInput)`
   margin-inline: 1rem;
 `;
 
-export const PickerYearRow = styled.div`
+export const PickerHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+
+  > div:first-child {
+    font-size: 1.5em;
+    padding-bottom: 0.25em;
+  }
+`;
+
+export const PickerYearAndArrows = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
 
   > ${Arrow} {
     font-size: 2em;
-    &:first-child {
-      margin-right: 0.75rem;
+    /* &:first-child {
+      margin-right: 0.25rem;
     }
     &:last-child {
-      margin-left: 0.75rem;
-    }
+      margin-left: 0.25rem;
+    } */
   }
 
   > ${YearDisplay}, > ${YearInput} {
@@ -93,4 +104,17 @@ export const PickerYearRow = styled.div`
     margin-left: -0.25em;
     color: gray;
   }
+
+  &,
+  > * {
+    height: 3rem;
+    line-height: 3rem;
+  }
+`;
+
+export const PickerFooter = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 1.5em;
+  padding-top: 0.5rem;
 `;

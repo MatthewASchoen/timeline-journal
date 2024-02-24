@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const SelectBox = styled.div`
   display: grid;
@@ -7,12 +7,31 @@ export const SelectBox = styled.div`
   column-gap: 0.25em;
 `;
 
-export const Arrow = styled.button`
+type ArrowProps = {
+  direction: 'up' | 'down' | 'right' | 'left';
+  flip?: boolean;
+};
+
+const arrowRadius = '.75em';
+const arrowBorderRadius = ({ direction }: ArrowProps) => css`
+  border-radius: ${[
+    direction === 'left' || direction === 'up',
+    direction === 'up' || direction === 'right',
+    direction === 'right' || direction === 'down',
+    direction === 'down' || direction === 'left',
+  ]
+    .map(b => (b ? arrowRadius : '0'))
+    .join(' ')};
+`;
+
+export const Arrow = styled.button<ArrowProps>`
+  display: flex;
   padding: 0;
   width: 1em;
+  justify-content: center;
   font: inherit;
   cursor: pointer;
-  background: inherit;
+  background: transparent;
   //border: 1px solid lightgray;
   border: none;
   &:hover,
@@ -21,15 +40,14 @@ export const Arrow = styled.button`
     //background: powderblue;
   }
   user-select: none;
-`;
+  transition: transform 250ms;
+  ${({ flip }) =>
+    flip &&
+    css`
+      transform: rotate(180deg);
+    `}
 
-const arrowRadius = '.75em';
-export const ArrowLeft = styled(Arrow)`
-  border-radius: ${arrowRadius} 0 0 ${arrowRadius};
-`;
-
-export const ArrowRight = styled(Arrow)`
-  border-radius: 0 ${arrowRadius} ${arrowRadius} 0;
+  ${arrowBorderRadius}
 `;
 
 export const Value = styled.span`

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
   MAX_YEAR,
   MIN_YEAR,
@@ -9,9 +9,9 @@ import {
   yearRegex,
 } from '../../../types/when';
 import { CalendarYear, CalendarYearProps } from '../Year';
-import { confirmKeys, leftKeys, rightKeys } from '../../../ui/keys';
+import { onKeys } from '../../../ui/keys';
 import { LeftArrow, RightArrow } from '../../../ui/LRSelect/Arrows';
-import { Button, ButtonTray } from '../../../ui/Button';
+import { Button } from '../../../ui/Button';
 import * as S from './styled';
 import { RangeHighlight } from '../../../types/when-range';
 import { useOnClickRepeat } from '../../../utility/useOnClickRepeat';
@@ -27,7 +27,8 @@ export interface CalendarPickerProps
   value2?: When;
   isRange?: boolean;
   highlightColor?: string;
-  buttons?: JSX.Element;
+  header?: ReactNode;
+  footer?: ReactNode;
 }
 
 const isValidYear = (year: string): boolean => yearRegex.test(year);
@@ -40,7 +41,8 @@ export const CalendarPicker = ({
   onClick,
   isRange,
   highlightColor,
-  buttons,
+  header,
+  footer,
   ...calProps
 }: CalendarPickerProps) => {
   //const [displayYear, setDisplayYear] = useState(value1?.year || CURRENT_YEAR);
@@ -100,65 +102,62 @@ export const CalendarPicker = ({
 
   return (
     <S.PickerContainer scale={16}>
-      <S.PickerYearRow>
-        <LeftArrow
-          {...yearLeftClick}
-          onKeyDown={({ key }) => {
-            if (confirmKeys.includes(key)) yearLeft();
-          }}
-          title={`View ${year - 1}`}
-        />
-        {editYear ? (
-          <S.YearInput
-            value={year.toString()}
-            isValid={isValidYear}
-            onChange={
-              ({ target }) => setYear(parseInt(target.value))
-              //whenAdd(value, parseInt(target.value) - value.year, 'year')
-            }
-            onBlur={() => setEditYear(false)}
-            onKeyDown={({ key }) => {
-              if (key === 'Enter') setEditYear(false);
-            }}
-            maxLength={4}
-            autoFocus
+      <S.PickerHeader>
+        <div>{header}</div>
+        <S.PickerYearAndArrows>
+          <LeftArrow
+            {...yearLeftClick}
+            onKeyDown={onKeys({ confirm: yearLeft })}
+            title={`View ${year - 1}`}
           />
-        ) : (
-          <>
-            <S.YearDisplay
-              onClick={() => onClick?.(newWhen(year))}
-              onKeyDown={({ key }) => {
-                if (confirmKeys.includes(key)) onClick?.(newWhen(year));
-                else if (leftKeys.includes(key)) yearLeft();
-                else if (rightKeys.includes(key)) yearRight();
-              }}
-              onMouseOver={() => setHoverWhen(newWhen(year))}
-              onMouseLeave={() => setHoverWhen(undefined)}
-              selected={yearSelected}
-              tabIndex={0}
-              title={
-                calProps.tooltipPrefix && `${calProps.tooltipPrefix} ${year}`
+          {editYear ? (
+            <S.YearInput
+              value={year.toString()}
+              isValid={isValidYear}
+              onChange={
+                ({ target }) => setYear(parseInt(target.value))
+                //whenAdd(value, parseInt(target.value) - value.year, 'year')
               }
-            >
-              {year}
-            </S.YearDisplay>
-            <Button onClick={() => setEditYear(true)} title="Edit year">
-              {ICONS.pencil}
-            </Button>
-          </>
-        )}
-        <RightArrow
-          {...yearRightClick}
-          onKeyDown={({ key }) => {
-            if (confirmKeys.includes(key)) yearRight();
-          }}
-          title={`View ${year + 1}`}
-        />
-      </S.PickerYearRow>
+              onBlur={() => setEditYear(false)}
+              onKeyDown={onKeys({ confirm: () => setEditYear(false) })}
+              maxLength={4}
+              autoFocus
+            />
+          ) : (
+            <>
+              <S.YearDisplay
+                onClick={() => onClick?.(newWhen(year))}
+                onKeyDown={onKeys({
+                  confirm: onClick && (() => onClick(newWhen(year))),
+                  left: yearLeft,
+                  right: yearRight,
+                })}
+                onMouseOver={() => setHoverWhen(newWhen(year))}
+                onMouseLeave={() => setHoverWhen(undefined)}
+                selected={yearSelected}
+                tabIndex={0}
+                title={
+                  calProps.tooltipPrefix && `${calProps.tooltipPrefix} ${year}`
+                }
+              >
+                {year}
+              </S.YearDisplay>
+              <Button onClick={() => setEditYear(true)} title="Edit year">
+                {ICONS.pencil}
+              </Button>
+            </>
+          )}
+          <RightArrow
+            {...yearRightClick}
+            onKeyDown={onKeys({ confirm: yearRight })}
+            title={`View ${year + 1}`}
+          />
+        </S.PickerYearAndArrows>
+      </S.PickerHeader>
       {/* <S.PickerCalendarRow scale={5}> */}
       <CalendarYear {...yearProps} />
       {/* </S.PickerCalendarRow> */}
-      {buttons && <ButtonTray>{buttons}</ButtonTray>}
+      {footer && <S.PickerFooter>{footer}</S.PickerFooter>}
     </S.PickerContainer>
   );
 };

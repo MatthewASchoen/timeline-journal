@@ -1,21 +1,43 @@
 import { HTMLAttributes, ReactNode } from 'react';
 import * as S from './styled';
 import styled from 'styled-components';
+import { onKeys } from '../keys';
+import { ClickySpan } from '../ClickySpan';
+import { DownArrow } from '../LRSelect/Arrows';
 
 export interface GroupProps extends HTMLAttributes<HTMLDivElement> {
   label?: ReactNode;
   buttons?: JSX.Element;
   collapsed?: boolean;
+  onCollapse?: () => void;
 }
 
 const Group = ({
   label,
   buttons,
+  onCollapse,
   children,
   ...divProps
 }: React.PropsWithChildren<GroupProps>): JSX.Element => (
   <S.GroupBox {...divProps} hasTopContent={!!(label || buttons)}>
-    {label && <S.GroupLabel>{label}</S.GroupLabel>}
+    {label && (
+      <S.GroupLabel>
+        {onCollapse ? (
+          <S.LabelWithCollapse>
+            <ClickySpan onClick={onCollapse} linkLike>
+              {label}
+            </ClickySpan>
+            <DownArrow
+              onClick={onCollapse}
+              onKeyDown={onKeys({ confirm: onCollapse })}
+              flip={!divProps.collapsed}
+            />
+          </S.LabelWithCollapse>
+        ) : (
+          label
+        )}
+      </S.GroupLabel>
+    )}
     {buttons && <S.TopRightButtons>{buttons}</S.TopRightButtons>}
     <S.GroupInner>{children}</S.GroupInner>
   </S.GroupBox>

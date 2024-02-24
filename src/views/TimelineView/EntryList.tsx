@@ -1,13 +1,10 @@
 import { Entry, EntryFilter, EntryRelation } from '../../types/entry';
 import { When } from '../../types/when';
 import * as S from './styled';
-import { CheckboxLabel } from '../../ui/InputLabel';
 import { ClickySpan } from '../../ui/ClickySpan';
 import { ButtonTray } from '../../ui/Button';
 import { EntryActions, entryRelationLabel, entryTooltip } from './list-helpers';
 import { ICONS } from '../../types/icons';
-
-const checkboxColor = 'dodgerblue';
 
 export type EntryListProps = {
   label: string;
@@ -32,21 +29,14 @@ const EntryList = ({
   onHoverEntry,
 }: EntryListProps): JSX.Element => (
   <S.ScrollGroup
-    label={
-      <CheckboxLabel
-        id={`show-${listKey}`}
-        label={entries.length ? `${label} (${entries.length})` : label}
-        onChange={() =>
-          setFilter({
-            ...filter,
-            lists: { ...lists, [listKey]: !lists[listKey] },
-          })
-        }
-        checked={lists[listKey]}
-        color={checkboxColor}
-      />
-    }
+    label={entries.length ? `${label} (${entries.length})` : label}
     collapsed={!lists[listKey]}
+    onCollapse={() =>
+      setFilter({
+        ...filter,
+        lists: { ...lists, [listKey]: !lists[listKey] },
+      })
+    }
   >
     <S.List>
       {entries.map(([entry, relation]) => (

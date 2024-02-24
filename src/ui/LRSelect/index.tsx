@@ -1,4 +1,4 @@
-import { confirmKeys, leftKeys, rightKeys } from '../keys';
+import { onKeys } from '../keys';
 import { LeftArrow, RightArrow } from './Arrows';
 import * as S from './styled';
 
@@ -13,14 +13,7 @@ const LRSelect = ({ value, onLeft, onRight }: LRSelectProps): JSX.Element => (
     <LeftArrow onClick={onLeft} />
     <S.Value
       tabIndex={0}
-      onKeyDown={({ key }) => {
-        // console.log({ key });
-        if (leftKeys.includes(key)) {
-          onLeft();
-        } else if (rightKeys.includes(key) || confirmKeys.includes(key)) {
-          onRight();
-        }
-      }}
+      onKeyDown={onKeys({ confirm: onRight, right: onRight, left: onLeft })}
     >
       {value}
     </S.Value>

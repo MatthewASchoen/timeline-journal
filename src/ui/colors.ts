@@ -54,3 +54,5 @@ export const colorSamples: [string, Record<string, string>][] = [
   ['Dark', DARK],
   ['Italian', ITALIAN],
 ];
+
+// const checkboxColor = 'dodgerblue';

@@ -33,29 +33,36 @@ const summarize = (
 ): [ReactNode, ReactNode] => {
   const today = newWhen();
   if (!start) {
-    return ['Nothing', 'Click a day, month, or year'];
+    return ['Select a day, month, or year', ''];
   }
   const clearStart = () => onChange(ongoing, end || undefined);
   const clearEnd = () => onChange(ongoing, start);
+
+  const startString = start
+    ? whenString(start, null, { shortMonth: !!end })
+    : '';
 
   if (!ongoing) {
     return [
       <>
         <ClearableClicky onClear={clearStart} title="Click to unselect">
-          {whenString(start)}
+          {startString}
         </ClearableClicky>
         {end && (
           <>
-            <span> to </span>
+            <span>—</span>
             <ClearableClicky onClear={clearEnd} title="Click to unselect">
-              {whenString(end)}
+              {whenString(end, null, { shortMonth: true })}
             </ClearableClicky>
           </>
         )}
       </>,
-      end
-        ? timeBetweenString(start, end)
-        : 'Click another day, month, or year\nif you want a range',
+      <>
+        <span>Duration: {timeBetweenString(start, end || start)}</span>
+        {!end && (
+          <span>Click another day, month, or year if you want a range</span>
+        )}
+      </>,
     ];
   }
 
@@ -63,20 +70,20 @@ const summarize = (
 
   const clearableWhen = (
     <ClearableClicky onClear={clearStart} title="Click to unselect">
-      {whenString(start)}
+      {startString}
     </ClearableClicky>
   );
 
   if (!isAfter(start, today)) {
     return [
       <>
+        Started:
         {clearableWhen}
-        {' to present'}
       </>,
-      between,
+      <span>Going for {between}</span>,
     ];
   }
-  return [<>{clearableWhen}</>, `Starts in ${between}`];
+  return [<>Starts: {clearableWhen}</>, <span>Starts in {between}</span>];
 };
 
 const EntryWhenPicker = ({
@@ -175,6 +182,8 @@ const EntryWhenPicker = ({
   //   );
   const [summaryText, subtext] = summarize(ongoing, start, end, onChange);
 
+  pickerProps.header = <S.SummaryRange>{summaryText}</S.SummaryRange>;
+
   return (
     <S.WhenPickerContainer>
       <CenteringDiv>
@@ -196,10 +205,7 @@ const EntryWhenPicker = ({
         </RadioPair>
       </CenteringDiv>
       <CalendarPicker {...pickerProps} />
-      <S.SummaryStack>
-        <S.SummaryText>Selected: {summaryText}</S.SummaryText>
-        <S.SubText>{subtext}</S.SubText>
-      </S.SummaryStack>
+      <S.SubText>{subtext}</S.SubText>
     </S.WhenPickerContainer>
   );
 };

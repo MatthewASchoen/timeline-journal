@@ -17,7 +17,10 @@ import {
 import { PulseyText } from '../../ui/Info/PulseyText';
 import { AppView } from '../TimelineApp/state-hooks';
 import { ClickySpan } from '../../ui/ClickySpan';
-import { filterHighlight } from '../TimelineView/TimelineFilterPanel';
+import {
+  allTimeLabel,
+  filterHighlight,
+} from '../TimelineView/TimelineFilterPanel';
 import { relationColors } from '../TimelineView/list-helpers';
 import { ICONS } from '../../types/icons';
 
@@ -228,6 +231,26 @@ export const changeLog = (setView: (view: AppView) => void): Changes[] => [
     ],
     fixes: [
       'Tooltips on Entries in the main timeline view now display start date to end date, rather than start date twice',
+    ],
+  },
+  {
+    date: '2/23/2024',
+    features: [
+      <>
+        Separated <B>Timeline Filters</B> panel on the main timeline page into{' '}
+        <B>Timeline</B> and <B>Filters</B> panels
+      </>,
+      'Replaced buttons below timeline calendar with shortcuts for the current day/month/year (with mouseover previews)',
+    ],
+    updates: [
+      'Replaced checkboxes with chevrons in the labels of collapsible groups to match other expandable designs',
+      'Justified the year selector above calendars to the right to allow for other header content',
+      <>
+        Moved <B>{allTimeLabel}</B> option directly above primary timeline
+        calendar
+      </>,
+      'Moved current selection display/toggles above edit page calendar',
+      'Made edit page duration display a little more verbose',
     ],
   },
   // {

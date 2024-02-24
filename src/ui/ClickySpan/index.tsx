@@ -1,4 +1,4 @@
-import { confirmKeys } from '../keys';
+import { onKeys } from '../keys';
 import * as S from './styled';
 import { AsProp } from '../types';
 
@@ -17,11 +17,7 @@ export const ClickySpan = ({
   <S.ClickySpan
     {...props}
     tabIndex={props.onClick && !noTab ? 0 : undefined}
-    onKeyDown={
-      props.onClick &&
-      (({ key }: React.KeyboardEvent) =>
-        confirmKeys.includes(key) && props.onClick?.())
-    }
+    onKeyDown={props.onClick && onKeys({ confirm: props.onClick })}
   />
 );
 
